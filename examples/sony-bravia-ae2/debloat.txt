@@ -1,0 +1,33 @@
+# Sony BRAVIA 4K AE2 (Google TV), Android 14, build UKN4.250422.001
+# Apply: tools/disable.sh examples/sony-bravia-ae2/debloat.txt   Undo: tools/restore.sh <same file>
+# Everything is DISABLED for user 0, never uninstalled.
+# Conservative: only tracking, telemetry, promos and demo mode. Casting, AirPlay, USB media,
+# photo frame, voice search, Google apps and all streaming apps are kept.
+#
+# Network debugging: this TV uses Android 11+ "Wireless debugging". Pair once with
+#   adb pair <ip>:<pairing port> <code>; adb connect <ip>:<port>; adb tcpip 5555
+# then tools/tv.py works on 5555 until the TV reboots (repeat adb connect + tcpip after a reboot).
+
+# Viewing tracking (ACR: identifies what's on screen for ad targeting)
+tv.samba.ssm                       # Samba TV
+tv.samba.ssm.ui                    # Samba TV settings / opt-in UI
+
+# Sony telemetry
+com.sonyericsson.idd.agent         # usage data reporting
+com.qterics.da.product             # device analytics
+com.sony.dtv.da.service            # device analytics service
+com.sony.dtv.crashlogcollector     # crash log uploads
+com.sony.dtv.sonybugreportsys      # bug report uploads
+
+# Sony promos
+com.sony.dtv.promos                # promo content
+com.sony.dtv.sonyselect            # "Sony Select" app recommendations
+
+# Store demo mode
+com.sony.dtv.demosupport
+com.sony.dtv.demosystemsupport
+com.sony.dtv.multiscreendemo
+
+# Google extras
+com.google.android.apps.tv.dreamx  # ambient screensaver with recommendations (falls back to basic)
+com.google.android.feedback        # feedback / report uploads
