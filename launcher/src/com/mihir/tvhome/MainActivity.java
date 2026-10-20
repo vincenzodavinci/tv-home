@@ -61,8 +61,8 @@ import java.util.Set;
  */
 public class MainActivity extends Activity {
 
-    // Dock, hidden apps, Live TV and grid width come from res/values/config.xml.
-    private String[] dockApps;
+    // Dock, grid order, hidden apps, Live TV and grid width come from res/values/config.xml.
+    private String[] dockApps, gridFirst;
     private final Set<String> hidden = new HashSet<>();
     private String liveTvPkg, inputPickerPkg;
     private int cols;
@@ -114,6 +114,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle b) {
         super.onCreate(b);
         dockApps = getResources().getStringArray(R.array.dock_apps);
+        gridFirst = getResources().getStringArray(R.array.grid_first);
         hidden.addAll(Arrays.asList(getResources().getStringArray(R.array.hidden_apps)));
         hidden.add(getPackageName());
         liveTvPkg = getString(R.string.live_tv_package);
@@ -362,8 +363,11 @@ public class MainActivity extends Activity {
 
         List<App> dock = new ArrayList<>();
         for (String p : dockApps) if (byPkg.containsKey(p)) dock.add(byPkg.remove(p));
-        List<App> rest = new ArrayList<>(byPkg.values());
-        Collections.sort(rest, (x, y) -> x.label.compareToIgnoreCase(y.label));
+        List<App> rest = new ArrayList<>();
+        for (String p : gridFirst) if (byPkg.containsKey(p)) rest.add(byPkg.remove(p));
+        List<App> others = new ArrayList<>(byPkg.values());
+        Collections.sort(others, (x, y) -> x.label.compareToIgnoreCase(y.label));
+        rest.addAll(others);
 
         dockRow.removeAllViews();
         grid.removeAllViews();

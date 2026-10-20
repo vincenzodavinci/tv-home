@@ -14,6 +14,16 @@
         <item>com.amazon.amazonvideo.livingroom</item>
     </string-array>
 
+    <!-- Grid apps shown first, in this order; the rest follow alphabetically. -->
+    <string-array name="grid_first">
+        <item>com.google.android.youtube.tvunplugged</item>
+        <item>com.apple.atve.sony.appletv</item>
+        <item>com.cbs.ott</item>
+        <item>com.peacocktv.peacockandroid</item>
+        <item>com.crunchyroll.crunchyroid</item>
+        <item>com.wbd.stream</item>
+    </string-array>
+
     <!-- Never shown as tiles: system helpers, and the Live TV app (it's in the Inputs menu). -->
     <string-array name="hidden_apps">
         <item>com.tcl.tv</item>
