@@ -6,6 +6,7 @@
 <resources>
     <!-- Dock apps, left to right. Apps that aren't installed are skipped. -->
     <string-array name="dock_apps">
+        <item>com.stremio.one</item>
         <item>com.apple.atve.androidtv.appletv</item>
         <item>com.google.android.youtube.tv</item>
         <item>in.startv.hotstar</item>

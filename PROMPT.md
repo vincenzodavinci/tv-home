@@ -17,5 +17,13 @@ Google TV also disable com.google.android.tungsten.setupwraith or it hijacks the
 test the Home button from inside an app.
 ```
 
+To add Stremio as well, append:
+
+```text
+Also install Stremio (tools/stremio-install.sh, or --store for the Play Store), keep it first in the
+dock, ask me which add-on manifest URLs I want and add them with tools/stremio-addons.py, then help
+me sign in on the TV with tools/type.sh.
+```
+
 If you cloned [this repo](https://github.com/mihirgupta0900/tv-home), run Claude Code inside it. It
 can reuse the launcher and scripts instead of writing them from scratch.

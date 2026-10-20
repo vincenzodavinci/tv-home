@@ -42,7 +42,21 @@ tools/disable.sh examples/tcl-google-tv-g07/debloat.txt     # or your own list, 
 launcher/build-and-install.sh                               # build + install the launcher
 ```
 
-Undo everything with `tools/restore.sh <the same list>`.
+Undo everything with `tools/restore.sh <the same list>` (`UNINSTALL=1` also removes the launcher and Stremio).
+
+### Add Stremio
+
+```bash
+tools/stremio-install.sh                                    # official Android TV APK for the TV's ABI
+#   or: tools/stremio-install.sh --store                    # open the Play Store page instead (auto-updates)
+tools/venv/bin/python -I tools/stremio-addons.py --list     # add-ons on your Stremio account
+tools/venv/bin/python -I tools/stremio-addons.py <manifest URL> ...   # add more; the TV syncs on sign-in
+launcher/build-and-install.sh                               # Stremio is first in the dock by default
+```
+
+Sign in on the TV with `tools/type.sh` (run it alone to type your password hidden). Add-ons live on
+your Stremio account, not the device, so a factory reset or a new TV only needs a sign-in. Stick to
+add-ons for content you have the right to stream.
 
 ## What's here
 
@@ -55,6 +69,8 @@ Undo everything with `tools/restore.sh <the same list>`.
 | [tools/find-tv.sh](tools/find-tv.sh) | Finds Android TVs on your Wi-Fi |
 | [tools/type.sh](tools/type.sh) | Type into the TV's on-screen keyboard from your laptop (`tools/type.sh` alone prompts hidden, for passwords) |
 | [tools/disable.sh](tools/disable.sh), [tools/restore.sh](tools/restore.sh) | Apply / undo a debloat list |
+| [tools/stremio-install.sh](tools/stremio-install.sh) | Install Stremio's Android TV build (or open its Play Store page) |
+| [tools/stremio-addons.py](tools/stremio-addons.py) | List / add add-ons on your Stremio account by manifest URL |
 | [examples/](examples/) | Debloat lists per TV model |
 
 ## The launcher

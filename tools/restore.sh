@@ -3,6 +3,7 @@
 # Google TV's setup app) and make the stock launcher the default home again.
 # Usage: tools/restore.sh <debloat list>
 #   STOCK_LAUNCHER=com.google.android.tvlauncher/.MainActivity tools/restore.sh list.txt   (older Android TV)
+#   UNINSTALL=1 tools/restore.sh list.txt   also uninstall the tv-home launcher and Stremio
 set -euo pipefail
 cd "$(dirname "$0")/.."
 LIST="${1:?usage: tools/restore.sh <debloat list>}"
@@ -13,6 +14,10 @@ STOCK_LAUNCHER="${STOCK_LAUNCHER:-com.google.android.apps.tv.launcherx/.home.Hom
   echo "pm enable com.google.android.tungsten.setupwraith"
   echo "pm enable ${STOCK_LAUNCHER%%/*}"
   echo "cmd package set-home-activity --user 0 $STOCK_LAUNCHER"
+  if [ "${UNINSTALL:-}" = 1 ]; then
+    echo "pm uninstall com.mihir.tvhome"
+    echo "pm uninstall com.stremio.one"
+  fi
   echo "input keyevent KEYCODE_HOME"
 } | "$PY" -I tools/tv.py --batch
 echo "Restored. Press Home on the remote."

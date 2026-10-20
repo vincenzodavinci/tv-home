@@ -5,6 +5,7 @@
     tv.py 'pm list packages'                 one shell command
     tv.py --batch < cmds.txt                 one command per line, same connection
     tv.py --pull /sdcard/x.png x.png
+    tv.py --push big.apk /data/local/tmp/x.apk         ADB sync push (fast; use for large APKs)
     tv.py --push-b64 local.apk /data/local/tmp/x.apk   chunked base64 upload with md5 check
     tv.py --shot out.png                     screenshot from the TV
 """
@@ -68,6 +69,9 @@ def main():
                 print(f"$ {line}\n{dev.shell(line, read_timeout_s=120).rstrip()}")
     elif a[0] == "--pull":
         dev.pull(a[1], a[2])
+    elif a[0] == "--push":
+        dev.push(a[1], a[2], read_timeout_s=600)
+        print(f"pushed {a[1]} -> {a[2]}")
     elif a[0] == "--push-b64":
         push_b64(dev, a[1], a[2])
     elif a[0] == "--shot":
