@@ -25,5 +25,13 @@ dock, ask me which add-on manifest URLs I want and add them with tools/stremio-a
 me sign in on the TV with tools/type.sh.
 ```
 
+To add the privacy layer, append:
+
+```text
+Then add a privacy layer with tools/privacy.sh: Private DNS through NextDNS or AdGuard DNS, opt out
+of the advertising ID, and optionally an always-on VPN. Explain what each layer hides and does not
+hide. Do not configure torrent or debrid add-ons for unlicensed content.
+```
+
 If you cloned [this repo](https://github.com/mihirgupta0900/tv-home), run Claude Code inside it. It
 can reuse the launcher and scripts instead of writing them from scratch.

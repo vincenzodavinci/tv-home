@@ -58,6 +58,22 @@ Sign in on the TV with `tools/type.sh` (run it alone to type your password hidde
 your Stremio account, not the device, so a factory reset or a new TV only needs a sign-in. Stick to
 add-ons for content you have the right to stream.
 
+### Add a privacy layer
+
+Debloating removes the TV's own ad and telemetry apps. For the other observers — your DNS, your ISP
+and the servers behind your apps — there is a small, reversible privacy layer:
+
+```bash
+tools/privacy.sh status
+tools/privacy.sh dns abc123.dns.nextdns.io   # NextDNS; or dns.adguard-dns.com
+tools/privacy.sh adid off                    # opt out of the advertising ID
+tools/privacy.sh vpn com.wireguard.android   # optional: keep a VPN app always on
+```
+
+`dns` tests name resolution and puts the old setting back if it fails. Read
+[docs/PRIVACY.md](docs/PRIVACY.md) for what each layer hides, what it does not, and the debrid/TorBox
+caveat.
+
 ## What's here
 
 | Path | What it is |
@@ -71,6 +87,8 @@ add-ons for content you have the right to stream.
 | [tools/disable.sh](tools/disable.sh), [tools/restore.sh](tools/restore.sh) | Apply / undo a debloat list |
 | [tools/stremio-install.sh](tools/stremio-install.sh) | Install Stremio's Android TV build (or open its Play Store page) |
 | [tools/stremio-addons.py](tools/stremio-addons.py) | List / add add-ons on your Stremio account by manifest URL |
+| [tools/privacy.sh](tools/privacy.sh) | Private DNS, ad-ID opt-out, always-on VPN, tracker audit |
+| [docs/PRIVACY.md](docs/PRIVACY.md) | What each privacy layer hides — and does not |
 | [examples/](examples/) | Debloat lists per TV model |
 
 ## The launcher
