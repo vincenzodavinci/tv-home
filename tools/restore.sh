@@ -14,6 +14,8 @@ STOCK_LAUNCHER="${STOCK_LAUNCHER:-com.google.android.apps.tv.launcherx/.home.Hom
   echo "pm enable com.google.android.tungsten.setupwraith"
   echo "pm enable ${STOCK_LAUNCHER%%/*}"
   echo "cmd package set-home-activity --user 0 $STOCK_LAUNCHER"
+  # Switch off the launcher's Home-key service, keeping any other accessibility services.
+  echo 'v=$(settings get secure enabled_accessibility_services | sed -E "s#:?com\.mihir\.tvhome/[^:]+##; s#^:##"); if [ -z "$v" ] || [ "$v" = null ]; then settings delete secure enabled_accessibility_services; else settings put secure enabled_accessibility_services "$v"; fi'
   if [ "${UNINSTALL:-}" = 1 ]; then
     echo "pm uninstall com.mihir.tvhome"
     echo "pm uninstall com.stremio.one"

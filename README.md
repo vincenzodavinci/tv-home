@@ -107,9 +107,17 @@ Change the dock: edit `config.xml`, then run `launcher/build-and-install.sh`.
 
 - **macOS blocks the `adb` binary** on the local network ("No route to host"). `tools/tv.py` uses
   the `adb-shell` Python package instead.
-- **Google TV hijacks the Home button.** With the stock launcher disabled, the setup app
-  (`com.google.android.tungsten.setupwraith`) has a higher HOME priority than any third-party
-  launcher. The install script disables it; `restore.sh` re-enables it.
+- **Google TV hijacks the Home button.** The setup app (`com.google.android.tungsten.setupwraith`)
+  and the stock launcher both have a higher HOME priority than any third-party launcher. The
+  install script disables the setup app; `restore.sh` re-enables it.
+- **Disabling the stock launcher breaks the remote's app buttons and Settings button** (seen on a
+  Sony BRAVIA). Sony hands app-button presses to the stock launcher, which opens the app; it also
+  owns the Settings panel. And only the HOME role holder may open apps from the background, so it
+  must keep that role too, or the buttons fail inside other apps. So the stock launcher now stays
+  enabled as the system's home, and `HomeKeyService` (an accessibility service in the launcher,
+  enabled over ADB at install) takes the Home key and switches to tv-home whenever the stock home
+  screen comes to the front. Don't force-stop `com.mihir.tvhome`: Android then drops it from the
+  enabled accessibility services (rerun `launcher/build-and-install.sh` to turn it back on).
 - **Home opened the launcher behind the current app**, because of a stale home task from switching
   launchers. Force-stopping the launcher and `com.android.tv.settings` and pressing Home fixes it.
   The install script does this.

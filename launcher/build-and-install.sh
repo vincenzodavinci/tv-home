@@ -9,8 +9,12 @@ export PATH="$JAVA_HOME/bin:$PATH"
 SDK="${ANDROID_HOME:-/opt/homebrew/share/android-commandlinetools}"
 BT="$SDK/build-tools/34.0.0"
 JAR="$SDK/platforms/android-34/android.jar"
-# Google TV stock launcher; older Android TV sets use com.google.android.tvlauncher.
-STOCK_LAUNCHER="${STOCK_LAUNCHER:-com.google.android.apps.tv.launcherx}"
+# Google TV stock launcher; older Android TV sets use com.google.android.tvlauncher/.MainActivity.
+# It stays enabled and keeps the HOME role: on Google TV it opens the apps behind the remote's app
+# buttons (only the HOME role holder may start them from the background) and owns the Settings
+# panel. HomeKeyService, an accessibility service in this APK, sends Home here instead.
+STOCK_LAUNCHER="${STOCK_LAUNCHER:-com.google.android.apps.tv.launcherx/.home.HomeActivity}"
+SERVICE=com.mihir.tvhome/com.mihir.tvhome.HomeKeyService
 B=build
 
 rm -rf "$B" && mkdir -p "$B/gen" "$B/classes" "$B/dex"
@@ -35,10 +39,11 @@ printf '%s\n' \
   "pm install -r /data/local/tmp/tvhome.apk" \
   "rm -f /data/local/tmp/tvhome.apk" \
   "pm grant com.mihir.tvhome android.permission.ACCESS_FINE_LOCATION" \
-  "cmd package set-home-activity --user 0 com.mihir.tvhome/.MainActivity" \
-  "pm disable-user --user 0 $STOCK_LAUNCHER" \
   "pm disable-user --user 0 com.google.android.tungsten.setupwraith" \
-  "cmd package set-home-activity --user 0 com.mihir.tvhome/.MainActivity" \
+  "pm enable ${STOCK_LAUNCHER%%/*}" \
+  "cmd package set-home-activity --user 0 $STOCK_LAUNCHER" \
+  'v=$(settings get secure enabled_accessibility_services); case "$v" in *com.mihir.tvhome/*) ;; null|"") settings put secure enabled_accessibility_services '"$SERVICE"' ;; *) settings put secure enabled_accessibility_services "$v:'"$SERVICE"'" ;; esac' \
+  "settings put secure accessibility_enabled 1" \
   "am force-stop com.android.tv.settings" \
   "input keyevent KEYCODE_HOME" \
   | "$PY" -I ../tools/tv.py --batch
