@@ -22,6 +22,8 @@
         <item>com.peacocktv.peacockandroid</item>
         <item>com.crunchyroll.crunchyroid</item>
         <item>com.wbd.stream</item>
+        <item>com.android.vending</item>
+        <item>com.nordvpn.android</item>
     </string-array>
 
     <!-- Never shown as tiles: system helpers, and the Live TV app (it's in the Inputs menu). -->
