@@ -115,9 +115,11 @@ Change the dock: edit `config.xml`, then run `launcher/build-and-install.sh`.
   owns the Settings panel. And only the HOME role holder may open apps from the background, so it
   must keep that role too, or the buttons fail inside other apps. So the stock launcher now stays
   enabled as the system's home, and `HomeKeyService` (an accessibility service in the launcher,
-  enabled over ADB at install) takes the Home key and switches to tv-home whenever the stock home
-  screen comes to the front. Don't force-stop `com.mihir.tvhome`: Android then drops it from the
-  enabled accessibility services (rerun `launcher/build-and-install.sh` to turn it back on).
+  enabled over ADB at install) switches to tv-home whenever the stock home screen comes to the
+  front, so Home shows it for a split second first. It must not filter key events: keys that pass
+  through an accessibility key filter lose hold-to-repeat, so holding volume moved one step only.
+  Don't force-stop `com.mihir.tvhome`: Android then drops it from the enabled accessibility
+  services (rerun `launcher/build-and-install.sh` to turn it back on).
 - **Home opened the launcher behind the current app**, because of a stale home task from switching
   launchers. Force-stopping the launcher and `com.android.tv.settings` and pressing Home fixes it.
   The install script does this.

@@ -2,26 +2,18 @@ package com.mihir.tvhome;
 
 import android.accessibilityservice.AccessibilityService;
 import android.content.Intent;
-import android.view.KeyEvent;
 import android.view.accessibility.AccessibilityEvent;
 
 /**
  * Keeps this launcher as Home while the stock Google TV launcher stays enabled. The stock launcher
  * has to stay: on Google TV it opens the apps behind the remote's app buttons and owns the Settings
  * panel. But as a system app its HOME filter always outranks a third-party one, so this service
- * takes the Home key, and steps in whenever the stock home screen comes to the front anyway
- * (Back out of an app, boot).
+ * steps in whenever the stock home screen comes to the front (Home, Back out of an app, boot).
+ * It deliberately doesn't filter key events: re-injected keys lose hold-to-repeat (volume).
  */
 public class HomeKeyService extends AccessibilityService {
 
     static final String STOCK_LAUNCHER = "com.google.android.apps.tv.launcherx";
-
-    @Override
-    protected boolean onKeyEvent(KeyEvent e) {
-        if (e.getKeyCode() != KeyEvent.KEYCODE_HOME) return false;
-        if (e.getAction() == KeyEvent.ACTION_UP && !e.isCanceled()) goHome();
-        return true;
-    }
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent e) {
